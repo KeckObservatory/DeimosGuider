@@ -1,0 +1,7 @@
+#!/bin/sh
+
+LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/lib"
+export LD_LIBRARY_PATH
+
+DIR=/home/kics/instr/python/deimos_guider
+python $DIR/deimos_guider_dss.py $*
