@@ -20,13 +20,9 @@
 
 from math import pi,sin,cos,tan,atan,atan2
 import os.path
-import astropy.units as u
-#import fits
 import angles
 import astropy.io.fits as fits
-#import http.client, urllib.request, urllib.parse, urllib.error
-import requests
-import re
+
 class DSS:
     def __init__(self):
         self.radeg = 180.0/pi

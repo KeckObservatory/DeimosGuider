@@ -236,11 +236,10 @@ def to_jpg(data):# Clip data to brightness limits
     return(image)
 
 if __name__ == '__main__':
-    import os, sys, glob
+    import os
+    import sys
     import dss
     import math
-    #import fits
-    #import fits2pil
     import re
     import getopt
 
@@ -265,10 +264,9 @@ if __name__ == '__main__':
             assert False, "unhandled option"
         
     mlist = args
-    slf = open('starlist','w')
+    slf = open('starlist', 'w')
     base_path = Path(__file__).parent
     fontpath = (base_path / "Fonts")
-    #fontpath = file_path
 
     guider_scale = 0.207           # guider camera scale arcsec/pix
     guider_ccd = [212, 212]        # guider camera size in arcsec
