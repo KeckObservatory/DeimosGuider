@@ -42,12 +42,10 @@ Modification History:
         2013-Dec-20     GDW     - Added debug mode switch
                                 """
 
-import http.client, urllib.request, urllib.parse, urllib.error
 import PIL.Image as Image, PIL.ImageDraw as ImageDraw
-import PIL.ImageFont as ImageFont, PIL.ImageEnhance as ImageEnhance, PIL.ImageChops as ImageChops
+import PIL.ImageFont as ImageFont
 import fits2pil
-import math
-import re
+from pathlib import Path
 
 class selectedObject:
     def __init__(self, objectlist):
@@ -268,7 +266,9 @@ if __name__ == '__main__':
         
     mlist = args
     slf = open('starlist','w')
-    fontpath = 'Fonts'
+    base_path = Path(__file__).parent
+    fontpath = (base_path / "Fonts")
+    #fontpath = file_path
 
     guider_scale = 0.207           # guider camera scale arcsec/pix
     guider_ccd = [212, 212]        # guider camera size in arcsec
@@ -354,16 +354,14 @@ if __name__ == '__main__':
             print(error)
             sys.exit()
         dss.getWCS(fits_file)
-        #fim = fits.FITS(fitsout, 'r')
         imfits2pil = fits2pil.arrayToGreyImage(fits_file[0].data)
-        #imfits2pil = to_jpg(fits_file[0].data)
         im = imfits2pil.convert('RGB')
         imskypa = dss.skyPA()
         rotate = 91.4 - m.pa
         gxy = (im.size[0]/2, im.size[1]/2)
         im = im.rotate(rotate, Image.BICUBIC)
         draw = ImageDraw.Draw(im)
-        font=ImageFont.load(fontpath+"/helvR08.pil")
+        font=ImageFont.load(fontpath / "helvR08.pil")
         #draw.setfont(font)
         #draw.setink(colors['black'])
         draw.line((gxy[0]-106, gxy[1]+23, gxy[0]+106, gxy[1]+23), fill=colors['black'])
@@ -380,7 +378,7 @@ if __name__ == '__main__':
             drawcircle(draw, gsrxy[0], gsrxy[1], 10)
         #draw.setink(colors['blue'])
         drawcompass(draw, gxy[0]-116, gxy[1]-116, m.pa-imskypa, fill=colors['blue'])
-        font=ImageFont.load(fontpath+"/helvR12.pil")
+        #font=ImageFont.load(fontpath+"/helvR12.pil")
         #draw.setfont(font)
         im = im.crop((gxy[0]-160, gxy[1]-160, gxy[0]+160, gxy[1]+160))
         im.save(guider_gifout)
