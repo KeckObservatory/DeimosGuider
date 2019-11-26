@@ -40,6 +40,8 @@ Modification History:
         2013-Sep-08     GDW     - Fixed problem with double-minus in DEC
                                 - Added offsets to printout
         2013-Dec-20     GDW     - Added debug mode switch
+
+        2019-Nov-25     LR      - Convert to Python 3, eliminate dependencies from custom code
                                 """
 
 import PIL.Image as Image, PIL.ImageDraw as ImageDraw
