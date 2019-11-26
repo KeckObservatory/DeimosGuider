@@ -45,6 +45,7 @@ Modification History:
 import http.client, urllib.request, urllib.parse, urllib.error
 import PIL.Image as Image, PIL.ImageDraw as ImageDraw
 import PIL.ImageFont as ImageFont, PIL.ImageEnhance as ImageEnhance, PIL.ImageChops as ImageChops
+import fits2pil
 import math
 import re
 
@@ -267,7 +268,7 @@ if __name__ == '__main__':
         
     mlist = args
     slf = open('starlist','w')
-    fontpath = '/sol/apps2/kroot/instr/python/deimos_guider/Fonts'
+    fontpath = 'Fonts'
 
     guider_scale = 0.207           # guider camera scale arcsec/pix
     guider_ccd = [212, 212]        # guider camera size in arcsec
@@ -354,8 +355,8 @@ if __name__ == '__main__':
             sys.exit()
         dss.getWCS(fits_file)
         #fim = fits.FITS(fitsout, 'r')
-        #imfits2pil = fits2pil.arrayToGreyImage(fits_file[0].data)
-        imfits2pil = to_jpg(fits_file[0].data)
+        imfits2pil = fits2pil.arrayToGreyImage(fits_file[0].data)
+        #imfits2pil = to_jpg(fits_file[0].data)
         im = imfits2pil.convert('RGB')
         imskypa = dss.skyPA()
         rotate = 91.4 - m.pa
@@ -363,7 +364,7 @@ if __name__ == '__main__':
         im = im.rotate(rotate, Image.BICUBIC)
         draw = ImageDraw.Draw(im)
         font=ImageFont.load(fontpath+"/helvR08.pil")
-        draw.setfont(font)
+        #draw.setfont(font)
         #draw.setink(colors['black'])
         draw.line((gxy[0]-106, gxy[1]+23, gxy[0]+106, gxy[1]+23), fill=colors['black'])
         drawbox(draw, gxy[0], gxy[1], 212, 212)
@@ -375,12 +376,12 @@ if __name__ == '__main__':
             gsrxy[1] = im.size[1] - (gxy[1] + gsrxy[1])
             #draw.setink(colors['red'])
             label = gs.id.upper()
-            draw.text((gsrxy[0]+10, gsrxy[1]-10), label, fill=colors['red'])
+            draw.text((gsrxy[0]+10, gsrxy[1]-10), label, font = font, fill=colors['red'])
             drawcircle(draw, gsrxy[0], gsrxy[1], 10)
         #draw.setink(colors['blue'])
         drawcompass(draw, gxy[0]-116, gxy[1]-116, m.pa-imskypa, fill=colors['blue'])
         font=ImageFont.load(fontpath+"/helvR12.pil")
-        draw.setfont(font)
+        #draw.setfont(font)
         im = im.crop((gxy[0]-160, gxy[1]-160, gxy[0]+160, gxy[1]+160))
         im.save(guider_gifout)
         

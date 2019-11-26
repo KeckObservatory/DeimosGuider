@@ -19,7 +19,7 @@
 # DKM 2003-02-13
 
 from math import pi,sin,cos,tan,atan,atan2
-from astroquery.skyview import SkyView
+import os.path
 import astropy.units as u
 #import fits
 import angles
@@ -239,8 +239,8 @@ class DSS:
         return x, y 
 
     def skyPA(self):
-        xc = float(self.fitsimg.headers["NAXIS1"])/2.0
-        yc = float(self.fitsimg.headers["NAXIS2"])/2.0
+        xc = float(self.fitsimg.header["NAXIS1"])/2.0
+        yc = float(self.fitsimg.header["NAXIS2"])/2.0
         r1, d1 = self.xy2rd(xc, yc)
         r1 = angles.hrs2rad(angles.sex2deg(r1))
         d1 = angles.deg2rad(angles.sex2deg(d1))
@@ -296,8 +296,12 @@ class DSS:
         #    print('IOError:')
         #    raise IOError(text)
         #else:
-        dat = fits.open(url)
-        dat.writeto(output)
+        if os.path.exists(output):
+            print("File %s already exists" % output)
+            dat = fits.open(output)
+        else:
+            dat = fits.open(url)
+            dat.writeto(output)
         return dat
         #f = open(output, 'w')
         #f.write(doc)
