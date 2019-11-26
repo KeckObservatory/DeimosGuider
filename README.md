@@ -4,7 +4,7 @@
 
 * Python 3
 * astropy
-* Pillow (conda install Pillow)
+* Pillow (conda install pillow)
 
 ## Installation
 
