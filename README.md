@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* Python 3
+* Python 3 (Ananconda is recommended)
 * astropy
 * Pillow (conda install pillow)
 
